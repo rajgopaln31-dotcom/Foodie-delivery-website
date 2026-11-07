@@ -15,7 +15,7 @@ export default function Footer() {
           <Link to="/orders">My Orders</Link>
           <Link to="/cart">Cart</Link>
         </div>
-        <p className="muted small">© {new Date().getFullYear()} FoodieGo. Demo project.</p>
+        <p className="muted small">© {new Date().getFullYear()} RG.FoodHouse</p>
       </div>
     </footer>
   );

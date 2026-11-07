@@ -9,8 +9,8 @@ import { useToast } from './Toast';
 
 export function Logo() {
   return (
-    <span className="logo" aria-label="FoodieGo">
-      <span className="logo-mark">🍔</span> Foodie<span>Go</span>
+    <span className="logo" aria-label="RG.FOODHouse">
+      <span className="logo-mark">🍔</span> RG.FOOD<span>House</span>
     </span>
   );
 }

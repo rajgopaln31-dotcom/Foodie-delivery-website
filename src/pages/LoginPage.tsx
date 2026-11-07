@@ -106,8 +106,6 @@ export default function LoginPage() {
       <div className="auth-card">
         <Logo />
         <h2>{mode === 'login' ? 'Welcome back' : mode === 'register' ? 'Create your account' : 'Forgot password'}</h2>
-        {mode === 'login' && <p className="muted small">Demo account: <strong>demo@foodiego.com</strong> / <strong>Demo@123</strong></p>}
-
         <form onSubmit={submit} noValidate>
           {mode === 'login' && (
             <>
