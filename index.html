@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FoodieGo - order food from your favourite restaurants" />
+    <title>FoodieGo – Food Delivery</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Diagnostic: if the app fails to start or crashes, show the error on screen instead of a blank page.
+      (function () {
+        function show(msg) {
+          var r = document.getElementById('root');
+          if (r && r.childElementCount === 0) {
+            r.innerHTML = '<div style="max-width:720px;margin:40px auto;padding:16px;font-family:system-ui,sans-serif">' +
+              '<h2>The app could not start</h2><pre style="white-space:pre-wrap;background:#fef2f2;color:#991b1b;padding:12px;border-radius:8px"></pre></div>';
+            r.querySelector('pre').textContent = msg;
+          }
+        }
+        window.addEventListener('error', function (e) {
+          show('Error: ' + (e.message || e.error) + '\n' + (e.filename || '') + ':' + (e.lineno || ''));
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          show('Error: ' + (e.reason && e.reason.message ? e.reason.message : e.reason));
+        });
+        setTimeout(function () {
+          show('The page is empty. Press F12, open the Console tab and read the red error.');
+        }, 4000);
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
