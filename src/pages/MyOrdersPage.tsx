@@ -23,35 +23,67 @@ export default function MyOrdersPage() {
   }, []);
 
   return (
-    <div className="container page narrow">
+    <div className="container page narrow my-orders-page">
       <h1 className="page-title">My orders</h1>
+
       {status === 'failed' && error ? (
-        <ErrorState message={error} onRetry={() => user && void dispatch(fetchOrders(user.id))} />
+        <ErrorState
+          message={error}
+          onRetry={() => user && void dispatch(fetchOrders(user.id))}
+        />
       ) : status === 'loading' && items.length === 0 ? (
         <div className="skeleton" style={{ height: 120 }} />
       ) : items.length === 0 ? (
         <div className="empty-state">
           <div className="empty-emoji">📦</div>
           <h3>No orders yet</h3>
-          <p className="muted">Your placed orders will appear here.</p>
-          <Link to="/restaurants" className="btn btn-primary">Order now</Link>
+          <p className="muted">
+            Your placed orders will appear here.
+          </p>
+          <Link to="/restaurants" className="btn btn-primary">
+            Order now
+          </Link>
         </div>
       ) : (
         <ul className="order-list">
           {items.map((o) => {
             const idx = statusIndex(o, now);
+
             return (
               <li key={o.id} className="panel order-row">
                 <Img src={o.restaurantImage} alt={o.restaurantName} />
+
                 <div className="grow">
                   <h3>{o.restaurantName}</h3>
-                  <p className="small muted">{o.items.map((i) => `${i.quantity}× ${i.name}`).join(', ')}</p>
-                  <p className="small muted">#{o.id} • {new Date(o.createdAt).toLocaleString('en-IN')}</p>
+
+                  <p className="small muted">
+                    {o.items
+                      .map((i) => `${i.quantity}× ${i.name}`)
+                      .join(', ')}
+                  </p>
+
+                  <p className="small muted">
+                    #{o.id} • {new Date(o.createdAt).toLocaleString('en-IN')}
+                  </p>
                 </div>
+
                 <div className="order-side">
                   <strong>{formatINR(o.total)}</strong>
-                  <span className={`status-pill ${idx === ORDER_STATUSES.length - 1 ? 'ok' : ''}`}>{ORDER_STATUSES[idx]}</span>
-                  <Link to={`/order/${o.id}`} className="btn btn-outline btn-sm">{idx === ORDER_STATUSES.length - 1 ? 'View' : 'Track'}</Link>
+
+                  <span
+                    className={`status-pill ${
+                      idx === ORDER_STATUSES.length - 1 ? 'ok' : ''
+                    }`}
+                  >
+                    {ORDER_STATUSES[idx]}
+                  </span>
+
+                  <Link
+                    to={`/order/${o.id}`}
+                    className="btn btn-outline btn-sm"
+                  >
+                    {idx === ORDER_STATUSES.length - 1 ? 'View' : 'Track'}
+                  </Link>
                 </div>
               </li>
             );

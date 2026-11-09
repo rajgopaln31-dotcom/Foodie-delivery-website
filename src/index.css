@@ -222,3 +222,27 @@ button { cursor: pointer; }
 }
 @media (max-width: 420px) { .food-img { width: 92px; height: 92px; } .btn { padding: 10px 14px; } .grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; scroll-behavior: auto !important; transition: none !important; } }
+
+/* My Orders Footer Bottom Fix */
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-layout .main {
+  flex: 1;
+  min-height: 0;
+}
+
+.app-layout .footer {
+  flex-shrink: 0;
+}
