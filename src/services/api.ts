@@ -54,13 +54,12 @@ export const authApi = {
     await delay();
 
     const id = identifier.trim().toLowerCase();
-
     const users = getUsers();
 
     const user = users.find(
       (u) =>
-        u.email.toLowerCase() === id ||
-        u.mobile === id
+        u.email.trim().toLowerCase() === id ||
+        u.mobile.trim() === id
     );
 
     if (!user || user.password !== password) {
@@ -84,24 +83,51 @@ export const authApi = {
     const email = input.email.trim().toLowerCase();
     const mobile = input.mobile.trim();
 
-    // Check existing email
-    const existingEmail = users.some(
-      (u) => u.email.toLowerCase() === email
+    // Find existing account using email
+    const existingIndex = users.findIndex(
+      (u) => u.email.trim().toLowerCase() === email
     );
 
-    if (existingEmail) {
-      throw new Error('Email already registered. Please login.');
+    // If email already exists, update that account
+    if (existingIndex !== -1) {
+      const updatedUsers = [...users];
+
+      const existingUser = updatedUsers[existingIndex];
+
+      const mobileUsedByAnotherUser = users.some(
+        (u, index) =>
+          index !== existingIndex && u.mobile.trim() === mobile
+      );
+
+      if (mobileUsedByAnotherUser) {
+        throw new Error('Mobile number already registered.');
+      }
+
+      const updatedUser: StoredUser = {
+        ...existingUser,
+        name: input.name.trim(),
+        email,
+        mobile,
+        password: input.password,
+      };
+
+      updatedUsers[existingIndex] = updatedUser;
+
+      save('fd_users', updatedUsers);
+
+      return publicUser(updatedUser);
     }
 
-    // Check existing mobile
-    const existingMobile = users.some(
-      (u) => u.mobile === mobile
+    // Check existing mobile number
+    const existingMobile = users.find(
+      (u) => u.mobile.trim() === mobile
     );
 
     if (existingMobile) {
       throw new Error('Mobile number already registered.');
     }
 
+    // Create a new account
     const newUser: StoredUser = {
       id: `u-${Date.now()}`,
       name: input.name.trim(),
@@ -110,7 +136,6 @@ export const authApi = {
       password: input.password,
     };
 
-    // Save account permanently in this browser's localStorage
     save('fd_users', [...users, newUser]);
 
     return publicUser(newUser);

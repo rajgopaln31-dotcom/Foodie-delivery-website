@@ -62,7 +62,7 @@ export default function LoginPage() {
     e.preventDefault();
     if (busy || loading) return;
     const found = validate(mode, f);
-    setErrors(found);
+    setErrors(found);  
     if (Object.keys(found).length > 0) return;
     setBusy(true);
     try {
